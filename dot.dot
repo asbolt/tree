@@ -1,0 +1,12 @@
+digraph G{
+rankdir=HR;
+node0x603000000040 [label = "15", rang = 0]
+node0x603000000070 [label = "10", rang = 1]
+node0x603000000100 [label = "9", rang = 2]
+node0x6030000000d0 [label = "12", rang = 2]
+node0x6030000000a0 [label = "20", rang = 1]
+node0x603000000040 -> node0x603000000070
+node0x603000000040 -> node0x6030000000a0
+node0x603000000070 -> node0x603000000100
+node0x603000000070 -> node0x6030000000d0
+}

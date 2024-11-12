@@ -11,9 +11,9 @@ int main ()
     treeAddElement (root, 12);
     treeAddElement (root, 9);
 
-    treeDump (root);
-
     treePrint (root);
+
+    treeDump (root);
 
     treeDtor (root);
 }

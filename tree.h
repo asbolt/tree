@@ -37,6 +37,7 @@ FUNCTION_STATUS treeDtor (Node *node);
 FUNCTION_STATUS treePrint (Node *node);
 FUNCTION_STATUS print (Node *node, FILE *logFile);
 FUNCTION_STATUS branchCtor (Node *node, int branch, int value);
+FUNCTION_STATUS makeTreeFromFile (const char *file);
 
 #endif
 

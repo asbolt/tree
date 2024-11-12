@@ -39,8 +39,8 @@ FUNCTION_STATUS treeAddElement (Node *node, tree_element value)
     while (currentNode != NULL)
     {
         previousNode = currentNode;
-        currentNode = (value < node->data)? currentNode->left : currentNode->right;
-        branch = (value < node->data)? LEFT : RIGHT;
+        branch = (value < currentNode->data)? LEFT : RIGHT;
+        currentNode = (value < currentNode->data)? currentNode->left : currentNode->right;
     }
 
     branchCtor (previousNode, branch, value);
@@ -119,7 +119,7 @@ FUNCTION_STATUS makeTreeFromFile (const char *file)
     FILE *treeFile = fopen (file, "rb");
 
     fseek (treeFile, 0, SEEK_END);
-    int size = ftell (treeFile);
+    size_t size = (size_t)ftell (treeFile);
     fseek (treeFile, 0, SEEK_SET);
 
     char *buffer = (char *)calloc (size + 1, sizeof(char));
@@ -133,4 +133,6 @@ FUNCTION_STATUS makeTreeFromFile (const char *file)
     fclose (treeFile);
 
     //TODO
+
+    return CORRECT;
 }
