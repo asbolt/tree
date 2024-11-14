@@ -1,7 +1,7 @@
 #include "akinator.h"
 
 FUNCTION_STATUS akinator (Node *node) 
-{// TODO вводить несколько слов
+{
     assert (node);
 
     Node *currentNode = node;
@@ -10,12 +10,12 @@ FUNCTION_STATUS akinator (Node *node)
     {
         printf ("%s\n", currentNode->data);
         char *answer = (char *)calloc (MAX_ANSWER_SIZE, sizeof(char));
-        scanf ("%s", answer);
+        fgets (answer, MAX_ANSWER_SIZE, stdin);
 
-        if (strcmp(answer, "нет") == 0)
+        if (strstr(answer, "нет") != 0 || strstr(answer, "Нет") != 0)
         {
             currentNode = currentNode->left;
-        } else if (strcmp(answer, "да") == 0)
+        } else if (strstr(answer, "да") != 0 || strstr(answer, "Да") != 0)
         {
             currentNode = currentNode->right;
         }
@@ -27,9 +27,9 @@ FUNCTION_STATUS akinator (Node *node)
     {
         return ERROR;
     }
-    scanf ("%s", answer);
+    fgets (answer, MAX_ANSWER_SIZE, stdin);
 
-    if (strcmp(answer, "нет") == 0)
+    if (strstr(answer, "нет") != 0 || strstr(answer, "Нет") != 0)
     {
         char *oldLeaf = (char *) calloc (MAX_LEAF_SIZE, sizeof(char));
         if (oldLeaf == NULL)
@@ -45,8 +45,15 @@ FUNCTION_STATUS akinator (Node *node)
             return ERROR;
         }
 
-        printf ("А что это?\n");
-        scanf ("%s", newLeaf);
+        printf ("А кто это?\n");
+        fgets (newLeaf, MAX_QUESTION_SIZE, stdin);
+        for (int numberSymbol = 0; numberSymbol < MAX_QUESTION_SIZE; numberSymbol++)
+        {
+            if (newLeaf[numberSymbol] == '\n')
+            {
+                newLeaf[numberSymbol] = '\0';
+            }
+        }
 
         char *newQuestion = (char *) calloc (MAX_QUESTION_SIZE, sizeof(char));
         if (newQuestion == NULL)
@@ -55,14 +62,21 @@ FUNCTION_STATUS akinator (Node *node)
         }
 
         printf ("Чем %s отличается от %s? %s...\n", newLeaf, oldLeaf, newLeaf);
-        scanf ("%s", newQuestion);
+        fgets (newQuestion, MAX_QUESTION_SIZE, stdin);
+        for (int numberSymbol = 0; numberSymbol < MAX_QUESTION_SIZE; numberSymbol++)
+        {
+            if (newQuestion[numberSymbol] == '\n')
+            {
+                newQuestion[numberSymbol] = '\0';
+            }
+        }
 
         strcat (newQuestion, "?");
         currentNode->data = newQuestion;
         branchCtor (currentNode, LEFT_NO, oldLeaf);
         branchCtor (currentNode, RIGHT_YES, newLeaf);
 
-    } else if (strcmp(answer, "да") == 0)
+    } else if (strstr(answer, "да") != 0 || strstr(answer, "Да") != 0)
     {
         printf ("бимбамбимбум\n");
     }
