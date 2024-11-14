@@ -26,7 +26,7 @@ FUNCTION_STATUS treeDump (Node *root)
 
 FUNCTION_STATUS treeDumpMakeNodeLabels (Node *root, int rang, FILE *dotFile)
 {
-    fprintf (dotFile, "node%p [label = \"%d\", rang = %d]\n", root, root->data, rang);
+    fprintf (dotFile, "node%p [shape=\"rectangle\", label = \"%s\", rang = %d]\n", root, root->data, rang);
 
     if (root->left != NULL)
     {
@@ -45,12 +45,12 @@ FUNCTION_STATUS treeDumpMakeArrows (Node *root, FILE *dotFile)
 {
     if (root->left != NULL)
     {
-        fprintf (dotFile, "node%p -> node%p\n", root, root->left);
+        fprintf (dotFile, "node%p -> node%p [label = \"нет\"]\n", root, root->left);
     }
     
     if (root->right != NULL)
     {
-        fprintf (dotFile, "node%p -> node%p\n", root, root->right);
+        fprintf (dotFile, "node%p -> node%p [label = \"да\"]\n", root, root->right);
     }
 
     if (root->left != NULL)

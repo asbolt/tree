@@ -5,16 +5,19 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <assert.h>
+#include <cstring>
 
 #define LOG_FILE "logfile.txt"
+#define POISON (char*)POISON_
 
-typedef int tree_element;
-
-const tree_element POISON = -154;
+const char POISON_[5] = "а";
+const int MAX_ANSWER_SIZE = 8;
+const size_t MAX_LEAF_SIZE     = 150;
+const size_t MAX_QUESTION_SIZE = 150;
 
 struct Node 
 {
-    int data              = POISON;
+    char *data            = NULL;
     Node *left            = NULL;
     Node *right           = NULL;
 };
@@ -27,17 +30,16 @@ enum FUNCTION_STATUS
 
 enum BRANCH
 {
-    LEFT                  = 1,
-    RIGHT                 = 2
+    LEFT_NO               = 1,
+    RIGHT_YES             = 2
 };
 
-FUNCTION_STATUS nodeCtor (Node **node, int value);
-FUNCTION_STATUS treeAddElement (Node *node, tree_element value);
+FUNCTION_STATUS nodeCtor (Node **node, char * value);
+FUNCTION_STATUS treeAddElement (Node *node, char * value);
 FUNCTION_STATUS treeDtor (Node *node);
 FUNCTION_STATUS treePrint (Node *node);
 FUNCTION_STATUS print (Node *node, FILE *logFile);
-FUNCTION_STATUS branchCtor (Node *node, int branch, int value);
-FUNCTION_STATUS makeTreeFromFile (const char *file);
+FUNCTION_STATUS branchCtor (Node *node, int branch, char * value);
 
 #endif
 

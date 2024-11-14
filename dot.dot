@@ -1,12 +1,12 @@
 digraph G{
 rankdir=HR;
-node0x603000000040 [label = "15", rang = 0]
-node0x603000000070 [label = "10", rang = 1]
-node0x603000000100 [label = "9", rang = 2]
-node0x6030000000d0 [label = "12", rang = 2]
-node0x6030000000a0 [label = "20", rang = 1]
-node0x603000000040 -> node0x603000000070
-node0x603000000040 -> node0x6030000000a0
-node0x603000000070 -> node0x603000000100
-node0x603000000070 -> node0x6030000000d0
+node0x55aeb8a8c2a0 [shape="rectangle", label = "В лицее БРУ?", rang = 0]
+node0x55aeb8a8d690 [shape="rectangle", label = "Ященко", rang = 1]
+node0x55aeb8a8d750 [shape="rectangle", label = "ведет?", rang = 1]
+node0x55aeb8a8d810 [shape="rectangle", label = "Сугакевич", rang = 2]
+node0x55aeb8a8d8d0 [shape="rectangle", label = "Лобанок", rang = 2]
+node0x55aeb8a8c2a0 -> node0x55aeb8a8d690 [label = "нет"]
+node0x55aeb8a8c2a0 -> node0x55aeb8a8d750 [label = "да"]
+node0x55aeb8a8d750 -> node0x55aeb8a8d810 [label = "нет"]
+node0x55aeb8a8d750 -> node0x55aeb8a8d8d0 [label = "да"]
 }

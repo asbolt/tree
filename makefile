@@ -3,5 +3,5 @@ FLAGS = -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Waggressive-loop
 
 all: files
 
-files: main.cpp tree.cpp treeDump.cpp
-	$(CC) main.cpp tree.cpp treeDump.cpp $(FLAGS)
+files: main.cpp tree.cpp treeDump.cpp akinator.cpp treeFileFunc.cpp
+	$(CC) main.cpp tree.cpp treeDump.cpp akinator.cpp treeFileFunc.cpp

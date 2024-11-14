@@ -1,6 +1,6 @@
 #include "tree.h"
 
-FUNCTION_STATUS nodeCtor (Node **root, int value)
+FUNCTION_STATUS nodeCtor (Node **root, char* value)
 {
     *root = (Node *)calloc (1, sizeof(Node));
     if (*root == NULL)
@@ -8,19 +8,26 @@ FUNCTION_STATUS nodeCtor (Node **root, int value)
         return ERROR;
     }
 
-    (*root)->data = value;
+    (*root)->data = (char *)calloc (MAX_QUESTION_SIZE, sizeof(char));
+    if ((*root)->data == NULL)
+    {
+        return ERROR;
+    }
+
+    strcpy ((*root)->data, value);
+    //(*root)->data = value;
 
     return CORRECT;
 }
 
-FUNCTION_STATUS branchCtor (Node *node, int branch, int value)
+FUNCTION_STATUS branchCtor (Node *node, int branch, char* value)
 {
     assert (node);
 
-    if (branch == LEFT)
+    if (branch == LEFT_NO)
     {
         nodeCtor (&(node->left), value);
-    } else if (branch == RIGHT)
+    } else if (branch == RIGHT_YES)
     {
         nodeCtor (&(node->right), value);
     }
@@ -28,7 +35,7 @@ FUNCTION_STATUS branchCtor (Node *node, int branch, int value)
     return CORRECT;
 }
 
-FUNCTION_STATUS treeAddElement (Node *node, tree_element value)
+FUNCTION_STATUS treeAddElement (Node *node, char* value)
 {
     assert (node);
 
@@ -39,7 +46,7 @@ FUNCTION_STATUS treeAddElement (Node *node, tree_element value)
     while (currentNode != NULL)
     {
         previousNode = currentNode;
-        branch = (value < currentNode->data)? LEFT : RIGHT;
+        branch = (value < currentNode->data)? LEFT_NO : RIGHT_YES;
         currentNode = (value < currentNode->data)? currentNode->left : currentNode->right;
     }
 
@@ -92,47 +99,23 @@ FUNCTION_STATUS print (Node *node, FILE *logFile)
         return ERROR;
     }
 
-    fprintf (logFile, "(%d", node->data);
+    fprintf (logFile, "(\"%s\"\n", node->data);
 
     if (node->left != NULL)
     {
         print (node->left, logFile); 
     } else {
-        fprintf (logFile, "(*)");
+        fprintf (logFile, "(*)\n");
     }
 
     if (node->right != NULL)
     {
         print (node->right, logFile); 
     } else {
-        fprintf (logFile, "(*)");
+        fprintf (logFile, "(*)\n");
     }
 
-    fprintf (logFile, ")");
-
-    return CORRECT;
-}
-
-
-FUNCTION_STATUS makeTreeFromFile (const char *file)
-{
-    FILE *treeFile = fopen (file, "rb");
-
-    fseek (treeFile, 0, SEEK_END);
-    size_t size = (size_t)ftell (treeFile);
-    fseek (treeFile, 0, SEEK_SET);
-
-    char *buffer = (char *)calloc (size + 1, sizeof(char));
-    if (buffer == NULL)
-    {
-        return ERROR;
-    }
-
-    fread (buffer, sizeof(char), size, treeFile);
-
-    fclose (treeFile);
-
-    //TODO
+    fprintf (logFile, ")\n");
 
     return CORRECT;
 }
