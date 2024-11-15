@@ -3,6 +3,8 @@
 
 #include "tree.h"
 
-bool akinator (Node *node);
+bool guessElement (Node *node);
+bool findLeafElement (Node **currentNode);
+bool getElement (char *element);
 
 #endif

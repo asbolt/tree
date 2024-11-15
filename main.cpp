@@ -6,14 +6,14 @@
 int main ()
 {
     Node *root = NULL;
-    nodeCtor (&root, "Животное?");
+    nodeCtor (&root, POISON);
 
-    branchCtor (root, LEFT_NO, "Полотенце");
-    branchCtor (root, RIGHT_YES, "Кошка");
+    //branchCtor (root, LEFT_NO, "Полотенце");
+    //branchCtor (root, RIGHT_YES, "Кошка");
 
-    //makeTreeFromFile ("logfile.txt", root);
+    makeTreeFromFile ("logfile.txt", root);
 
-    akinator (root);
+    guessElement (root);
 
     treePrint (root);
 
