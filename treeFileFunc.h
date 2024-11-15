@@ -3,7 +3,7 @@
 
 #include "tree.h"
 
-FUNCTION_STATUS makeTreeFromFile (const char *file, Node *root);
-FUNCTION_STATUS makeTreeNodesFromFile (char *node, char *buffer, Node *root, FILE *treeFile);
+bool makeTreeFromFile (const char *file, Node *root);
+bool makeTreeNodesFromFile (char *node, char *buffer, Node *root, FILE *treeFile);
 
 #endif

@@ -1,7 +1,8 @@
 #include "akinator.h"
 
-FUNCTION_STATUS akinator (Node *node) 
-{
+bool akinator (Node *node) 
+{//TODO разбить на функции
+//TODO поменьше говнокода
     assert (node);
 
     Node *currentNode = node;
@@ -25,7 +26,7 @@ FUNCTION_STATUS akinator (Node *node)
     char *answer = (char *)calloc (MAX_ANSWER_SIZE, sizeof(char));
     if (answer == NULL)
     {
-        return ERROR;
+        return false;
     }
     fgets (answer, MAX_ANSWER_SIZE, stdin);
 
@@ -34,7 +35,7 @@ FUNCTION_STATUS akinator (Node *node)
         char *oldLeaf = (char *) calloc (MAX_LEAF_SIZE, sizeof(char));
         if (oldLeaf == NULL)
         {
-            return ERROR;
+            return false;
         }
         
         oldLeaf = currentNode->data;
@@ -42,12 +43,12 @@ FUNCTION_STATUS akinator (Node *node)
         char *newLeaf = (char *) calloc (MAX_LEAF_SIZE, sizeof(char));
         if (newLeaf == NULL)
         {
-            return ERROR;
+            return false;
         }
 
         printf ("А кто это?\n");
-        fgets (newLeaf, MAX_QUESTION_SIZE, stdin);
-        for (int numberSymbol = 0; numberSymbol < MAX_QUESTION_SIZE; numberSymbol++)
+        fgets (newLeaf, MAX_LEAF_SIZE, stdin);
+        for (int numberSymbol = 0; numberSymbol < MAX_LEAF_SIZE; numberSymbol++)
         {
             if (newLeaf[numberSymbol] == '\n')
             {
@@ -55,15 +56,15 @@ FUNCTION_STATUS akinator (Node *node)
             }
         }
 
-        char *newQuestion = (char *) calloc (MAX_QUESTION_SIZE, sizeof(char));
+        char *newQuestion = (char *) calloc (MAX_LEAF_SIZE, sizeof(char));
         if (newQuestion == NULL)
         {
-            return ERROR;
+            return false;
         }
 
         printf ("Чем %s отличается от %s? %s...\n", newLeaf, oldLeaf, newLeaf);
-        fgets (newQuestion, MAX_QUESTION_SIZE, stdin);
-        for (int numberSymbol = 0; numberSymbol < MAX_QUESTION_SIZE; numberSymbol++)
+        fgets (newQuestion, MAX_LEAF_SIZE, stdin);
+        for (int numberSymbol = 0; numberSymbol < MAX_LEAF_SIZE; numberSymbol++)
         {
             if (newQuestion[numberSymbol] == '\n')
             {
@@ -81,5 +82,5 @@ FUNCTION_STATUS akinator (Node *node)
         printf ("бимбамбимбум\n");
     }
 
-    return CORRECT;
+    return true;
 }

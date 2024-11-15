@@ -3,6 +3,6 @@
 
 #include "tree.h"
 
-FUNCTION_STATUS akinator (Node *node);
+bool akinator (Node *node);
 
 #endif

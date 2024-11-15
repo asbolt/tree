@@ -13,7 +13,6 @@
 const char POISON_[5] = "а";
 const int MAX_ANSWER_SIZE = 8;
 const size_t MAX_LEAF_SIZE     = 150;
-const size_t MAX_QUESTION_SIZE = 150;
 
 struct Node 
 {
@@ -22,24 +21,18 @@ struct Node
     Node *right           = NULL;
 };
 
-enum FUNCTION_STATUS
-{
-    CORRECT               = 0,
-    ERROR                 = 1
-};
-
 enum BRANCH
 {
     LEFT_NO               = 1,
     RIGHT_YES             = 2
 };
 
-FUNCTION_STATUS nodeCtor (Node **node, char * value);
-FUNCTION_STATUS treeAddElement (Node *node, char * value);
-FUNCTION_STATUS treeDtor (Node *node);
-FUNCTION_STATUS treePrint (Node *node);
-FUNCTION_STATUS print (Node *node, FILE *logFile);
-FUNCTION_STATUS branchCtor (Node *node, int branch, char * value);
+bool nodeCtor (Node **node, char * value);
+bool treeAddElement (Node *node, char * value);
+bool treeDtor (Node *node);
+bool treePrint (Node *node);
+bool print (Node *node, FILE *logFile);
+bool branchCtor (Node *node, int branch, char * value);
 
 #endif
 

@@ -1,30 +1,30 @@
 #include "treeFileFunc.h"
 
-FUNCTION_STATUS makeTreeFromFile (const char *file, Node *root)
+bool makeTreeFromFile (const char *file, Node *root)
 {
     FILE *treeFile = fopen (file, "rb");
     if (treeFile == NULL)
     {
-        return ERROR;
+        return false;
     }
 
-    char *buffer = (char *)calloc (MAX_QUESTION_SIZE, sizeof(char));
+    char *buffer = (char *)calloc (MAX_LEAF_SIZE, sizeof(char));
     if (buffer == NULL)
     {
-        return ERROR;
+        return false;
     }
 
-    char *node = (char *)calloc (MAX_QUESTION_SIZE, sizeof(char));
+    char *node = (char *)calloc (MAX_LEAF_SIZE, sizeof(char));
     if (node == NULL)
     {
-        return ERROR;
+        return false;
     }
 
 
-    fgets (buffer, MAX_QUESTION_SIZE, treeFile);
+    fgets (buffer, MAX_LEAF_SIZE, treeFile);
     while (strchr (buffer, '(') == NULL)
     {
-        fgets (buffer, MAX_QUESTION_SIZE, treeFile);
+        fgets (buffer, MAX_LEAF_SIZE, treeFile);
     }
 
     int size = (strrchr (buffer, '\"') - strchr (buffer, '\"') - 1);
@@ -34,17 +34,17 @@ FUNCTION_STATUS makeTreeFromFile (const char *file, Node *root)
 
     fclose (treeFile);
 
-    return CORRECT;
+    return true;
 }
 
-FUNCTION_STATUS makeTreeNodesFromFile (char *node, char *buffer, Node *root, FILE *treeFile)
+bool makeTreeNodesFromFile (char *node, char *buffer, Node *root, FILE *treeFile)
 {
     strcpy (root->data, node);
 
-    fgets (buffer, MAX_QUESTION_SIZE, treeFile);
+    fgets (buffer, MAX_LEAF_SIZE, treeFile);
     while (strchr (buffer, '(') == NULL)
     {
-        fgets (buffer, MAX_QUESTION_SIZE, treeFile);
+        fgets (buffer, MAX_LEAF_SIZE, treeFile);
     }
 
     if (strchr (buffer, '*') == NULL)
@@ -56,10 +56,10 @@ FUNCTION_STATUS makeTreeNodesFromFile (char *node, char *buffer, Node *root, FIL
         makeTreeNodesFromFile (node, buffer, root->left, treeFile);
     }
 
-    fgets (buffer, MAX_QUESTION_SIZE, treeFile);
+    fgets (buffer, MAX_LEAF_SIZE, treeFile);
     while (strchr (buffer, '(') == NULL)
     {
-        fgets (buffer, MAX_QUESTION_SIZE, treeFile);
+        fgets (buffer, MAX_LEAF_SIZE, treeFile);
     }
 
     if (strchr (buffer, '*') == NULL)
@@ -71,5 +71,5 @@ FUNCTION_STATUS makeTreeNodesFromFile (char *node, char *buffer, Node *root, FIL
         makeTreeNodesFromFile (node, buffer, root->right, treeFile);
     }
 
-    return CORRECT;
+    return true;
 }

@@ -1,26 +1,25 @@
 #include "tree.h"
 
-FUNCTION_STATUS nodeCtor (Node **root, char* value)
+bool nodeCtor (Node **root, char* value)
 {
     *root = (Node *)calloc (1, sizeof(Node));
     if (*root == NULL)
     {
-        return ERROR;
+        return false;
     }
 
-    (*root)->data = (char *)calloc (MAX_QUESTION_SIZE, sizeof(char));
+    (*root)->data = (char *)calloc (MAX_LEAF_SIZE, sizeof(char));
     if ((*root)->data == NULL)
     {
-        return ERROR;
+        return false;
     }
 
     strcpy ((*root)->data, value);
-    //(*root)->data = value;
 
-    return CORRECT;
+    return true;
 }
 
-FUNCTION_STATUS branchCtor (Node *node, int branch, char* value)
+bool branchCtor (Node *node, int branch, char* value)
 {
     assert (node);
 
@@ -32,10 +31,10 @@ FUNCTION_STATUS branchCtor (Node *node, int branch, char* value)
         nodeCtor (&(node->right), value);
     }
 
-    return CORRECT;
+    return true;
 }
 
-FUNCTION_STATUS treeAddElement (Node *node, char* value)
+bool treeAddElement (Node *node, char* value)
 {
     assert (node);
 
@@ -52,14 +51,14 @@ FUNCTION_STATUS treeAddElement (Node *node, char* value)
 
     branchCtor (previousNode, branch, value);
 
-    return CORRECT;
+    return true;
 }
 
-FUNCTION_STATUS treeDtor (Node *node)
+bool treeDtor (Node *node)
 {
     if (!node)
     {
-        return ERROR;
+        return false;
     }
 
     if (node->left != NULL)
@@ -74,29 +73,29 @@ FUNCTION_STATUS treeDtor (Node *node)
 
     free (node);
 
-    return CORRECT;
+    return true;
 }
 
-FUNCTION_STATUS treePrint (Node *node)
+bool treePrint (Node *node)
 {
     FILE *logFile = fopen (LOG_FILE, "wb");
     if (logFile == NULL)
     {
-        return ERROR;
+        return false;
     }
 
     print (node, logFile);
 
     fclose (logFile);
 
-    return CORRECT;
+    return true;
 }
 
-FUNCTION_STATUS print (Node *node, FILE *logFile)
+bool print (Node *node, FILE *logFile)
 {
     if (!node)
     {
-        return ERROR;
+        return false;
     }
 
     fprintf (logFile, "(\"%s\"\n", node->data);
@@ -117,5 +116,5 @@ FUNCTION_STATUS print (Node *node, FILE *logFile)
 
     fprintf (logFile, ")\n");
 
-    return CORRECT;
+    return true;
 }

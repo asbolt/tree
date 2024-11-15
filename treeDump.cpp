@@ -1,11 +1,11 @@
 #include "treeDump.h"
 
-FUNCTION_STATUS treeDump (Node *root)
+bool treeDump (Node *root)
 {
     FILE * dotFile = fopen ("dot.dot", "wb");
         if (dotFile == NULL)
         {
-            return ERROR;
+            return false;
         }
 
     fprintf (dotFile, "digraph G{\nrankdir=HR;\n");
@@ -21,10 +21,10 @@ FUNCTION_STATUS treeDump (Node *root)
 
     system ("dot dot.dot -Tpng -o gr.png");
 
-    return CORRECT;
+    return true;
 }
 
-FUNCTION_STATUS treeDumpMakeNodeLabels (Node *root, int rang, FILE *dotFile)
+bool treeDumpMakeNodeLabels (Node *root, int rang, FILE *dotFile)
 {
     fprintf (dotFile, "node%p [shape=\"rectangle\", label = \"%s\", rang = %d]\n", root, root->data, rang);
 
@@ -38,10 +38,10 @@ FUNCTION_STATUS treeDumpMakeNodeLabels (Node *root, int rang, FILE *dotFile)
         treeDumpMakeNodeLabels (root->right, rang + 1, dotFile);
     }
 
-    return CORRECT;
+    return true;
 }
 
-FUNCTION_STATUS treeDumpMakeArrows (Node *root, FILE *dotFile)
+bool treeDumpMakeArrows (Node *root, FILE *dotFile)
 {
     if (root->left != NULL)
     {
@@ -63,5 +63,5 @@ FUNCTION_STATUS treeDumpMakeArrows (Node *root, FILE *dotFile)
         treeDumpMakeArrows (root->right, dotFile);
     }
 
-    return CORRECT;
+    return true;
 }
