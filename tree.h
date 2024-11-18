@@ -34,7 +34,7 @@ bool treeDtor (Node *node);
 bool treePrint (Node *node);
 bool print (Node *node, FILE *logFile);
 bool branchCtor (Node *node, int branch, char * value);
-Node *findElement (char *data, Node *root, Node *node);
+Node *findElement (char *data, Node *root, Node *node, int *way, int ind);
 
 #endif
 

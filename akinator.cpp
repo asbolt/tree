@@ -103,3 +103,47 @@ bool getElement (char *element)
 
     return true;
 }
+
+bool giveDefinition (char *data, Node *root)
+{
+    int *way = (int *)calloc (MAX_WAY_SIZE, sizeof(int));
+    if (way == NULL)
+    {
+        return false;
+    }
+
+    int ind = 0;
+
+    findElement (data, root, root, way, ind);
+
+    printf ("%s -- это", data);
+
+    for (ind = 0; way[ind] != 0; ind++)
+    {
+        if (way[ind] == LEFT_NO)
+        {
+            char partDefinition [MAX_LEAF_SIZE] = {0};
+            char *question = strchr(root->data, '?');
+            int size = (question - root->data)/sizeof(char);
+            strncat (partDefinition, root->data, size);
+
+            printf (" НЕ %s", partDefinition);
+            root = root->left; 
+        }
+
+        if (way[ind] == RIGHT_YES)
+        {
+            char partDefinition [MAX_LEAF_SIZE] = {0};
+            char *question = strchr(root->data, '?');
+            int size = (question - root->data)/sizeof(char);
+            strncat (partDefinition, root->data, size);
+
+            printf (" %s", partDefinition);
+            root = root->right; 
+        }
+    }
+
+    printf (".\n");
+
+    return true;
+}

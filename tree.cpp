@@ -121,7 +121,7 @@ bool print (Node *node, FILE *logFile)
     return true;
 }
 
-Node *findElement (char *data, Node *root, Node *node)
+Node *findElement (char *data, Node *root, Node *node, int *way, int ind)
 {
     if (strcmp (node->data, data) == 0)
     {
@@ -130,18 +130,26 @@ Node *findElement (char *data, Node *root, Node *node)
 
     if (node->left != NULL)
     {
-        if (findElement (data, root, node->left) != NULL)
+        way[ind] = LEFT_NO;
+
+        if (findElement (data, root, node->left, way, ind + 1) != NULL)
         {
-            return findElement (data, root, node->left);
+            return findElement (data, root, node->left, way, ind + 1);
         }
+
+        way[ind] = 0;
     }
 
     if (node->right != NULL)
     {
-        if (findElement (data, root, node->right) != NULL)
+        way[ind] = RIGHT_YES;
+
+        if (findElement (data, root, node->right, way, ind + 1) != NULL)
         {
-            return findElement (data, root, node->right);
+            return findElement (data, root, node->right, way, ind + 1);
         }
+
+        way[ind] = 0;
     }
 
     return NULL;

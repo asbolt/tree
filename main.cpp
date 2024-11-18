@@ -19,5 +19,9 @@ int main ()
 
     treeDump (root, WIDE);
 
+    giveDefinition ("Полторашка", root);
+
+    treeDump (root, WIDE);
+
     treeDtor (root);
 }

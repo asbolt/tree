@@ -3,8 +3,11 @@
 
 #include "tree.h"
 
+const size_t MAX_WAY_SIZE = 10;
+
 bool guessElement (Node *node);
 bool findLeafElement (Node **currentNode);
 bool getElement (char *element);
+bool giveDefinition (char *data, Node *root);
 
 #endif
