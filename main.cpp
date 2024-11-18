@@ -6,18 +6,18 @@
 int main ()
 {
     Node *root = NULL;
-    nodeCtor (&root, POISON);
+    nodeCtor (&root, POISON, NULL);
 
     //branchCtor (root, LEFT_NO, "Полотенце");
     //branchCtor (root, RIGHT_YES, "Кошка");
 
     makeTreeFromFile ("logfile.txt", root);
 
-    guessElement (root);
+    //guessElement (root);
 
-    treePrint (root);
+    //treePrint (root);
 
-    treeDump (root);
+    treeDump (root, WIDE);
 
     treeDtor (root);
 }

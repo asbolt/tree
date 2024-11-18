@@ -16,6 +16,7 @@ const size_t MAX_LEAF_SIZE     = 150;
 
 struct Node 
 {
+    Node *parent          = NULL;
     char *data            = NULL;
     Node *left            = NULL;
     Node *right           = NULL;
@@ -27,12 +28,13 @@ enum BRANCH
     RIGHT_YES             = 2
 };
 
-bool nodeCtor (Node **node, char * value);
+bool nodeCtor (Node **node, char * value, Node *parent);
 bool treeAddElement (Node *node, char * value);
 bool treeDtor (Node *node);
 bool treePrint (Node *node);
 bool print (Node *node, FILE *logFile);
 bool branchCtor (Node *node, int branch, char * value);
+Node *findElement (char *data, Node *root, Node *node);
 
 #endif
 

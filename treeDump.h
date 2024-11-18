@@ -3,8 +3,14 @@
 
 #include "tree.h"
 
-bool treeDump (Node *root);
-bool treeDumpMakeNodeLabels (Node *root, int rang, FILE *dotFile);
+enum MODE
+{
+    WIDE,
+    NARROW
+};
+
+bool treeDump (Node *root, int mode);
+bool treeDumpMakeNodeLabels (Node *root, int rang, FILE *dotFile, int mode);
 bool treeDumpMakeArrows (Node *root, FILE *dotFile);
 
 #endif

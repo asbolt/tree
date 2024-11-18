@@ -1,6 +1,6 @@
 #include "tree.h"
 
-bool nodeCtor (Node **root, char* value)
+bool nodeCtor (Node **root, char* value, Node *parent)
 {
     *root = (Node *)calloc (1, sizeof(Node));
     if (*root == NULL)
@@ -14,6 +14,8 @@ bool nodeCtor (Node **root, char* value)
         return false;
     }
 
+    (*root)->parent = parent;
+
     strcpy ((*root)->data, value);
 
     return true;
@@ -25,10 +27,10 @@ bool branchCtor (Node *node, int branch, char* value)
 
     if (branch == LEFT_NO)
     {
-        nodeCtor (&(node->left), value);
+        nodeCtor (&(node->left), value, node);
     } else if (branch == RIGHT_YES)
     {
-        nodeCtor (&(node->right), value);
+        nodeCtor (&(node->right), value, node);
     }
 
     return true;
@@ -117,4 +119,30 @@ bool print (Node *node, FILE *logFile)
     fprintf (logFile, ")\n");
 
     return true;
+}
+
+Node *findElement (char *data, Node *root, Node *node)
+{
+    if (strcmp (node->data, data) == 0)
+    {
+        return node;
+    }
+
+    if (node->left != NULL)
+    {
+        if (findElement (data, root, node->left) != NULL)
+        {
+            return findElement (data, root, node->left);
+        }
+    }
+
+    if (node->right != NULL)
+    {
+        if (findElement (data, root, node->right) != NULL)
+        {
+            return findElement (data, root, node->right);
+        }
+    }
+
+    return NULL;
 }

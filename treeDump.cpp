@@ -1,6 +1,6 @@
 #include "treeDump.h"
 
-bool treeDump (Node *root)
+bool treeDump (Node *root, int mode)
 {
     FILE * dotFile = fopen ("dot.dot", "wb");
         if (dotFile == NULL)
@@ -11,7 +11,8 @@ bool treeDump (Node *root)
     fprintf (dotFile, "digraph G{\nrankdir=HR;\n");
 
     int rang = 0;
-    treeDumpMakeNodeLabels (root, rang, dotFile);
+
+    treeDumpMakeNodeLabels (root, rang, dotFile, mode);
 
     treeDumpMakeArrows (root, dotFile);
 
@@ -24,18 +25,24 @@ bool treeDump (Node *root)
     return true;
 }
 
-bool treeDumpMakeNodeLabels (Node *root, int rang, FILE *dotFile)
+bool treeDumpMakeNodeLabels (Node *root, int rang, FILE *dotFile, int mode)
 {
-    fprintf (dotFile, "node%p [shape=\"rectangle\", label = \"%s\", rang = %d]\n", root, root->data, rang);
+    if (mode == NARROW)
+    {
+        fprintf (dotFile, "node%p [shape=\"rectangle\", label = \"%s\", rang = %d]\n", root, root->data, rang);
+    } else if (mode == WIDE)
+    {
+        fprintf (dotFile, "node%p [shape=record, label = \"{%p | {%s} | {%p | %p}}\", rang = %d]\n", root, root->parent, root->data, root->left, root->right, rang);
+    }
 
     if (root->left != NULL)
     {
-        treeDumpMakeNodeLabels (root->left, rang + 1, dotFile);
+        treeDumpMakeNodeLabels (root->left, rang + 1, dotFile, mode);
     }
 
     if (root->right != NULL)
     {
-        treeDumpMakeNodeLabels (root->right, rang + 1, dotFile);
+        treeDumpMakeNodeLabels (root->right, rang + 1, dotFile, mode);
     }
 
     return true;
