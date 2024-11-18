@@ -147,3 +147,73 @@ bool giveDefinition (char *data, Node *root)
 
     return true;
 }
+
+bool findDifferences (char *dataFirst, char *dataSecond, Node *root)
+{
+    int *wayFirst = (int *)calloc (MAX_WAY_SIZE, sizeof(int));
+    if (wayFirst == NULL)
+    {
+        return false;
+    }
+
+    int *waySecond = (int *)calloc (MAX_WAY_SIZE, sizeof(int));
+    if (waySecond == NULL)
+    {
+        return false;
+    }
+
+    int ind = 0;
+
+    findElement (dataFirst, root, root, wayFirst, ind);
+    findElement (dataSecond, root, root, waySecond, ind);
+
+    printf ("%s и %s похожи тем, что они оба", dataFirst, dataSecond);
+
+    for (ind = 0; wayFirst[ind] == waySecond[ind] != 0; ind++)
+    {
+        if (wayFirst[ind] == LEFT_NO)
+        {
+            char partDefinition [MAX_LEAF_SIZE] = {0};
+            char *question = strchr(root->data, '?');
+            int size = (question - root->data)/sizeof(char);
+            strncat (partDefinition, root->data, size);
+
+            printf (" НЕ %s", partDefinition);
+            root = root->left;
+        }
+
+        if (wayFirst[ind] == RIGHT_YES)
+        {
+            char partDefinition [MAX_LEAF_SIZE] = {0};
+            char *question = strchr(root->data, '?');
+            int size = (question - root->data)/sizeof(char);
+            strncat (partDefinition, root->data, size);
+
+            printf (" %s", partDefinition);
+            root = root->right;
+        }
+    }
+    printf (".\n");
+
+    if (wayFirst[ind] == LEFT_NO)
+    {
+        char partDefinition [MAX_LEAF_SIZE] = {0};
+        char *question = strchr(root->data, '?');
+        int size = (question - root->data)/sizeof(char);
+        strncat (partDefinition, root->data, size);
+
+        printf ("Но %s НЕ %s.\n", dataFirst, partDefinition);
+    }
+
+    if (wayFirst[ind] == RIGHT_YES)
+    {
+        char partDefinition [MAX_LEAF_SIZE] = {0};
+        char *question = strchr(root->data, '?');
+        int size = (question - root->data)/sizeof(char);
+        strncat (partDefinition, root->data, size);
+        
+        printf ("Но %s %s.\n", dataFirst, partDefinition);
+    }
+
+    return true;
+}

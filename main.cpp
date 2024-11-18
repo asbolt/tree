@@ -13,15 +13,17 @@ int main ()
 
     makeTreeFromFile ("logfile.txt", root);
 
-    //guessElement (root);
+    guessElement (root);
 
-    //treePrint (root);
-
-    treeDump (root, WIDE);
-
-    giveDefinition ("Полторашка", root);
+    treePrint (root);
 
     treeDump (root, WIDE);
+
+    //giveDefinition ("Полторашка", root);
+
+    //findDifferences ("Кошка", "Полторашка", root);
+
+    //treeDump (root, WIDE);
 
     treeDtor (root);
 }
