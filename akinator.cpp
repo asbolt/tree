@@ -82,6 +82,8 @@ bool findLeafElement (Node **currentNode)
         } else if (strstr(answer, "да") != 0 || strstr(answer, "Да") != 0)
         {
             (*currentNode) = (*currentNode)->right;
+        } else {
+            return false;
         }
 
         free (answer);
@@ -213,6 +215,58 @@ bool findDifferences (char *dataFirst, char *dataSecond, Node *root)
         strncat (partDefinition, root->data, size);
         
         printf ("Но %s %s.\n", dataFirst, partDefinition);
+    }
+
+    return true;
+}
+
+bool akinator (Node *root)
+{
+    printf ("Choose mode: guess element, give definition or find differences [ge\\gd\\fd]\n");
+    char *answer = (char *)calloc (MAX_ANSWER_SIZE, sizeof(char));
+    if (answer == NULL)
+    {
+        return false;
+    }
+    fgets (answer, MAX_ANSWER_SIZE, stdin);
+
+    if (strcmp (answer, "ge\n") == 0)
+    {
+        guessElement (root);
+    } else if (strcmp (answer, "gd\n") == 0)
+    {
+        char *leaf = (char*) calloc (MAX_LEAF_SIZE, sizeof(char));
+        if (leaf == NULL)
+        {
+            return false;
+        }
+
+        printf ("Word: \n");
+        fgets (leaf, MAX_LEAF_SIZE, stdin);
+
+        giveDefinition (leaf, root);
+    } else if (strcmp (answer, "fd\n") == 0)
+    {
+        char *leafFirst = (char*) calloc (MAX_LEAF_SIZE, sizeof(char));
+        if (leafFirst == NULL)
+        {
+            return false;
+        }
+
+        char *leafSecond = (char*) calloc (MAX_LEAF_SIZE, sizeof(char));
+        if (leafSecond == NULL)
+        {
+            return false;
+        }
+
+        printf ("Words:\n");
+        fgets (leafFirst, MAX_LEAF_SIZE, stdin);
+        fgets (leafSecond, MAX_LEAF_SIZE, stdin);
+
+        findDifferences (leafFirst, leafSecond, root);
+    } else {
+        printf ("Syntax error\n");
+        return false;
     }
 
     return true;

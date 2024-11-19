@@ -10,5 +10,6 @@ bool findLeafElement (Node **currentNode);
 bool getElement (char *element);
 bool giveDefinition (char *data, Node *root);
 bool findDifferences (char *dataFirst, char *dataSecond, Node *root);
+bool akinator (Node *root);
 
 #endif
