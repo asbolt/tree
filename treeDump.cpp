@@ -2,6 +2,8 @@
 
 bool treeDump (Node *root, int mode)
 {
+    checkForErrors (root);
+
     FILE * dotFile = fopen ("dot.dot", "wb");
         if (dotFile == NULL)
         {
@@ -27,12 +29,15 @@ bool treeDump (Node *root, int mode)
 
 bool treeDumpMakeNodeLabels (Node *root, int rang, FILE *dotFile, int mode)
 {
+    checkForErrors (root);
+    assert (dotFile);
+    
     if (mode == NARROW)
     {
         fprintf (dotFile, "node%p [shape=\"rectangle\", label = \"%s\", rang = %d]\n", root, root->data, rang);
     } else if (mode == WIDE)
     {
-        fprintf (dotFile, "node%p [shape=record, label = \"{%p | {%s} | {%p | %p}}\", rang = %d]\n", root, root->parent, root->data, root->left, root->right, rang);
+        fprintf (dotFile, "node%p [shape=record, label = \"{%p | parent: %p | {%s} | {%p | %p}}\", rang = %d]\n", root, root, root->parent, root->data, root->left, root->right, rang);
     }
 
     if (root->left != NULL)

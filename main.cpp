@@ -15,12 +15,11 @@ int main ()
 
     //guessElement (root);
 
-    //treePrint (root);
-
     treeDump (root, WIDE);
 
     akinator (root);
 
+    treePrint (root);
     //giveDefinition ("Полторашка", root);
 
     //findDifferences ("Кошка", "Полторашка", root);

@@ -1,7 +1,10 @@
 #include "tree.h"
 
-bool nodeCtor (Node **root, char* value, Node *parent)
+bool nodeCtor (Node **root, const char* value, Node *parent)
 {
+    assert (root);
+    assert (value);
+
     *root = (Node *)calloc (1, sizeof(Node));
     if (*root == NULL)
     {
@@ -21,9 +24,10 @@ bool nodeCtor (Node **root, char* value, Node *parent)
     return true;
 }
 
-bool branchCtor (Node *node, int branch, char* value)
+bool branchCtor (Node *node, int branch, const char* value)
 {
     assert (node);
+    assert (value);
 
     if (branch == LEFT_NO)
     {
@@ -39,6 +43,7 @@ bool branchCtor (Node *node, int branch, char* value)
 bool treeAddElement (Node *node, char* value)
 {
     assert (node);
+    assert (value);
 
     Node *currentNode = node;
     Node *previousNode = NULL;
@@ -58,6 +63,8 @@ bool treeAddElement (Node *node, char* value)
 
 bool treeDtor (Node *node)
 {
+    assert (node);
+
     if (!node)
     {
         return false;
@@ -80,6 +87,9 @@ bool treeDtor (Node *node)
 
 bool treePrint (Node *node)
 {
+    assert (node);
+    assert (node->data);
+
     FILE *logFile = fopen (LOG_FILE, "wb");
     if (logFile == NULL)
     {
@@ -95,10 +105,8 @@ bool treePrint (Node *node)
 
 bool print (Node *node, FILE *logFile)
 {
-    if (!node)
-    {
-        return false;
-    }
+    assert (logFile);
+    checkForErrors (node);
 
     fprintf (logFile, "(\"%s\"\n", node->data);
 
@@ -123,6 +131,12 @@ bool print (Node *node, FILE *logFile)
 
 Node *findElement (char *data, Node *root, Node *node, int *way, int ind)
 {
+    assert (data);
+    assert (root);
+    assert (root->data);
+    assert (node);
+    assert (way);
+
     if (strcmp (node->data, data) == 0)
     {
         return node;
@@ -153,4 +167,19 @@ Node *findElement (char *data, Node *root, Node *node, int *way, int ind)
     }
 
     return NULL;
+}
+
+TREE_ERRORS checkForErrors (Node *root)
+{
+    if (root == NULL)
+    {
+        return TREE_NULL;
+    }
+
+    if (root->data == NULL)
+    {
+        return TREE_DATA_NULL;
+    }
+
+    return TREE_GOOD;
 }

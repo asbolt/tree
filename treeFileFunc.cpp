@@ -2,6 +2,9 @@
 
 bool makeTreeFromFile (const char *file, Node *root)
 {
+    assert (file);
+    assert (root);
+
     FILE *treeFile = fopen (file, "rb");
     if (treeFile == NULL)
     {
@@ -39,6 +42,11 @@ bool makeTreeFromFile (const char *file, Node *root)
 
 bool makeTreeNodesFromFile (char *node, char *buffer, Node *root, FILE *treeFile)
 {
+    assert (node);
+    assert (buffer);
+    assert (root);
+    assert (treeFile);
+    
     strcpy (root->data, node);
 
     fgets (buffer, MAX_LEAF_SIZE, treeFile);

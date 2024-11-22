@@ -3,17 +3,14 @@
 bool guessElement (Node *node) 
 {
     assert (node);
+    assert(node->data);
 
     Node *currentNode = node;
 
     findLeafElement (&currentNode);
 
     printf ("Это %s?\n", currentNode->data);
-    char *answer = (char *)calloc (MAX_ANSWER_SIZE, sizeof(char));
-    if (answer == NULL)
-    {
-        return false;
-    }
+    char answer [MAX_ANSWER_SIZE] = {};
     fgets (answer, MAX_ANSWER_SIZE, stdin);
 
     if (strstr(answer, "нет") != 0 || strstr(answer, "Нет") != 0)
@@ -23,8 +20,8 @@ bool guessElement (Node *node)
         {
             return false;
         }
-        
-        oldLeaf = currentNode->data;
+
+        strcpy (oldLeaf, currentNode->data);
 
         char *newLeaf = (char *) calloc (MAX_LEAF_SIZE, sizeof(char));
         if (newLeaf == NULL)
@@ -45,11 +42,10 @@ bool guessElement (Node *node)
         getElement (newQuestion);
 
         strcat (newQuestion, "?");
-        currentNode->data = newQuestion;
+        strcpy (currentNode->data, newQuestion);
         branchCtor (currentNode, LEFT_NO, oldLeaf);
         branchCtor (currentNode, RIGHT_YES, newLeaf);
 
-        free (answer);
         free (newLeaf);
         free (oldLeaf);
         free (newQuestion);
@@ -64,16 +60,11 @@ bool guessElement (Node *node)
 
 bool findLeafElement (Node **currentNode)
 {
+    char answer[MAX_ANSWER_SIZE] = {};
+
     while ((*currentNode)->left != NULL && (*currentNode)->right != NULL)
     {
         printf ("%s\n", (*currentNode)->data);
-
-        char *answer = (char *)calloc (MAX_ANSWER_SIZE, sizeof(char));
-        if (answer == NULL)
-        {
-            return false;
-        }
-
         fgets (answer, MAX_ANSWER_SIZE, stdin);
 
         if (strstr(answer, "нет") != 0 || strstr(answer, "Нет") != 0)
@@ -85,8 +76,6 @@ bool findLeafElement (Node **currentNode)
         } else {
             return false;
         }
-
-        free (answer);
     }
 
     return true;
@@ -94,26 +83,28 @@ bool findLeafElement (Node **currentNode)
 
 bool getElement (char *element)
 {
+    assert (element);
+
     fgets (element, MAX_LEAF_SIZE, stdin);
     for (int numberSymbol = 0; numberSymbol < MAX_LEAF_SIZE; numberSymbol++)
     {
         if (element[numberSymbol] == '\n')
         {
             element[numberSymbol] = '\0';
+            return true;
         }
     }
 
-    return true;
+    return false;
 }
 
 bool giveDefinition (char *data, Node *root)
 {
-    int *way = (int *)calloc (MAX_WAY_SIZE, sizeof(int));
-    if (way == NULL)
-    {
-        return false;
-    }
+    assert (data);
+    assert (root);
+    assert (root->data);
 
+    int way [MAX_WAY_SIZE] = {};
     int ind = 0;
 
     findElement (data, root, root, way, ind);
@@ -152,17 +143,13 @@ bool giveDefinition (char *data, Node *root)
 
 bool findDifferences (char *dataFirst, char *dataSecond, Node *root)
 {
-    int *wayFirst = (int *)calloc (MAX_WAY_SIZE, sizeof(int));
-    if (wayFirst == NULL)
-    {
-        return false;
-    }
+    assert (dataFirst);
+    assert (dataSecond);
+    assert (root);
+    assert (root->data);
 
-    int *waySecond = (int *)calloc (MAX_WAY_SIZE, sizeof(int));
-    if (waySecond == NULL)
-    {
-        return false;
-    }
+    int wayFirst [MAX_WAY_SIZE] = {};
+    int waySecond [MAX_WAY_SIZE] = {};
 
     int ind = 0;
 
@@ -222,18 +209,16 @@ bool findDifferences (char *dataFirst, char *dataSecond, Node *root)
 
 bool akinator (Node *root)
 {
-    printf ("Choose mode: guess element, give definition or find differences [ge\\gd\\fd]\n");
-    char *answer = (char *)calloc (MAX_ANSWER_SIZE, sizeof(char));
-    if (answer == NULL)
-    {
-        return false;
-    }
+    checkForErrors (root);
+
+    printf ("Выберите режим: угадать элемент, дать определение или найти различия [уэ\\до\\нр]\n");
+    char answer [MAX_ANSWER_SIZE] = {0};
     fgets (answer, MAX_ANSWER_SIZE, stdin);
 
-    if (strcmp (answer, "ge\n") == 0)
+    if (strcmp (answer, "уэ\n") == 0)
     {
         guessElement (root);
-    } else if (strcmp (answer, "gd\n") == 0)
+    } else if (strcmp (answer, "до\n") == 0)
     {
         char *leaf = (char*) calloc (MAX_LEAF_SIZE, sizeof(char));
         if (leaf == NULL)
@@ -241,11 +226,11 @@ bool akinator (Node *root)
             return false;
         }
 
-        printf ("Word: \n");
+        printf ("Слово: \n");
         fgets (leaf, MAX_LEAF_SIZE, stdin);
 
         giveDefinition (leaf, root);
-    } else if (strcmp (answer, "fd\n") == 0)
+    } else if (strcmp (answer, "нр\n") == 0)
     {
         char *leafFirst = (char*) calloc (MAX_LEAF_SIZE, sizeof(char));
         if (leafFirst == NULL)
@@ -259,7 +244,7 @@ bool akinator (Node *root)
             return false;
         }
 
-        printf ("Words:\n");
+        printf ("Слова:\n");
         fgets (leafFirst, MAX_LEAF_SIZE, stdin);
         fgets (leafSecond, MAX_LEAF_SIZE, stdin);
 
